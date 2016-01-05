@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>モーダルA</title>
+  <link rel="stylesheet" href="/demo/css/bootstrap.css">
+  <script src="/demo/js/jquery.min.js"></script>
+  <script src="/demo/js/jquery.cookie.js"></script>
+  <script src="/demo/js/bootstrap.min.js"></script>
+  <script src="/demo/modal/pushstate/js/modal_common.js"></script>
+  <script src="/demo/modal/pushstate/js/modal_reload.js"></script>
+</head>
+<body>
+  <div id="container" data-parent="/demo/modal/pushstate/index.html">
+    <div id="modal-content">
+      <div class="modal fade" data-back="true" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div id="modal-dialog" class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+              <h4></h4>
+              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+              <p><a class="btn btn-primary btn-lg js-modal" href="/demo/modal/pushstate/modal_b.html" role="button" data-target="#myModal">モーダルB</a></p>
+              <p><a class="btn btn-primary btn-lg js-modal" href="/demo/modal/pushstate/modal_c.html" role="button" data-target="#myModal">モーダルC</a></p>
+              <ul>
+                <li><a class="js-back" href="#">戻る</a></li>
+                <li><a class="js-forward" href="#">進む</a></li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default js-history-back" data-back="true" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

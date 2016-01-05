@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>モーダルC</title>
+  <link rel="stylesheet" href="/demo/css/bootstrap.css">
+  <script src="/demo/js/jquery.min.js"></script>
+  <script src="/demo/js/jquery.cookie.js"></script>
+  <script src="/demo/js/bootstrap.min.js"></script>
+  <script src="/demo/modal/pushstate/js/modal_common.js"></script>
+  <script src="/demo/modal/pushstate/js/modal_reload.js"></script>
+</head>
+<body>
+  <div id="container" data-parent="/demo/modal/pushstate/index.html">
+    <div id="article"></div>
+    <div id="modal-content">
+      <div class="modal" data-back="true" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div id="modal-dialog" class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" aria-label="Close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">モーダルC</h4>
+            </div>
+            <div class="modal-body">
+              <h4>ほげほげ</h4>
+              <p>モーダルCの内容</p>
+              <p><a class="btn btn-primary btn-lg js-modal" href="/demo/modal/pushstate/modal_a.html" role="button" data-target="#myModal">モーダルA</a></p>
+              <p><a class="btn btn-primary btn-lg js-modal" href="/demo/modal/pushstate/modal_b.html" role="button" data-target="#myModal">モーダルB</a></p>
+              <ul>
+                <li><a class="js-back" href="#">戻る</a></li>
+                <li><a class="js-forward" href="#">進む</a></li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default js-history-back" data-back="true" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
