@@ -45,7 +45,7 @@
 * data-parent: 子ページをリロード、または直接アクセスしたとき、モーダルウィンドウの裏側に表示する親ページを指定します。この値を省略すると、子ページとはみなされません。
 * data-charset: data-parentで指定した親ページの文字コードが子ページと異なる場合、その文字コードを指定します。この値は省略可能です。
   * 例) 親ページがShift_JIS、子ページがUTF-8の場合
-    * <div id="js-container" data-parent="hogehoge.html" data-charset="Shift_JIS">
+    * &lt;div id="js-container" data-parent="hogehoge.html" data-charset="Shift_JIS"&gt;
 
 ### モーダルウィンドウのリンク設置
 
