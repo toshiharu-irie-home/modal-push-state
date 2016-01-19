@@ -1,8 +1,3 @@
-/**
-* @license  Copyright (c) 2015 Toshiharu Irie.
-* This script released under the MIT license (MIT-LICENSE.txt).
-*/
-
 var MODAL = MODAL || {};
 
 (function($){
@@ -11,12 +6,13 @@ var MODAL = MODAL || {};
   // エレメント管理
   MODAL.option = {
     target: '.js-modal',
-    window: '#myModal',
-    content: '#modal-dialog',
+    window: '#js-modal',
+    content: '#js-modal-dialog',
     back: '.js-back',
     forward: '.js-forward',
-    container: '#container',
-    parent_content: '#article'
+    container: '#js-container',
+    parent_content: '#js-article',
+    has_open: 'modal-open'
   };
 
   // モーダル移動回数の管理
@@ -56,8 +52,7 @@ var MODAL = MODAL || {};
    *    それ以外: false
    */
   MODAL.move_page = function(count, hidden_modal){
-    var current_state = history.state;
-    if (current_state) {
+    if (history.state.match('modal')) {
       if (hidden_modal && MODAL.count.back !== -1) {
         // モーダルを閉じたとき、MODAL.count.backに格納された数値だけページ移動。
         history.go(MODAL.count.back);
@@ -79,9 +74,15 @@ var MODAL = MODAL || {};
    * モーダルを表示するときの処理。
    * @param {string} path モーダルページのURLを格納。
    * @param {boolean} reload
+   * @param char
    */
-  MODAL.view = function(path, reload){
-    var option = {};
+  MODAL.view = function(path, reload, char){
+    var _option = {};
+    $.ajaxSetup({
+      beforeSend: function(xhr){
+        xhr.overrideMimeType('text/html;charset=' + (char ? char : 'UTF-8'));
+      }
+    });
     $.get(path)
       .then(function(content) {
         if (reload) {
@@ -91,50 +92,63 @@ var MODAL = MODAL || {};
           // path引数から取得したモーダル情報をページ内に追加する
           $(MODAL.option.window).html($(content).find(MODAL.option.content));
         }
+        $('title').text($(MODAL.option.window).find('h1').text());
       });
     if (!reload) {
-      option = {
+      _option = {
         remote: path
       };
     }
     // モーダルを開く
-    $(MODAL.option.window).modal(option);
+    $(MODAL.option.window).modal(_option);
   };
 
   $(function(){
+    $(window).on('load', function(){
+      if (history.state === null) {
+        history.replaceState('parent', null, location.pathname);
+      }
+    });
+
     $(document).on('click', MODAL.option.target, function (e) {
       e.preventDefault();
-      var path = $(this).attr('href'),
-          state = {
-            action: 'modal'
-          };
-      if (history.state) {
+      var _path = $(this).attr('href');
+      if (history.state.match('modal')) {
         // モーダル内移動をしたとき、カウントを増加して、MODAL.count.forwardにカウント最大値を記憶
         MODAL.count.back--;
         MODAL.count.forward = MODAL.count.back;
       }
-      MODAL.view(path);
-
-      // モーダルを開く処理をしたとき、常にURLを書き換え、stateにモーダルを開いている証拠を残す
-      history.pushState(state, '', path);
+      var _charset = $(this).data('charset') ? $(this).data('charset') : 'UTF-8';
+      MODAL.view(_path, false, _charset);
+      history.pushState('modal' + MODAL.count.back, '', _path);
     });
 
     $(document).on('hidden.bs.modal', function () {
-      MODAL.move_page(true, true);
+      if (history.state.match('modal')) {
+        MODAL.move_page(true, true);
+      }
+      $('title').text($(MODAL.option.parent_content).find('h1').text());
     });
 
     window.addEventListener('popstate', function() {
-      var state = history.state;
-      if (!state) { // ヒストリー操作時にstate (モーダルを開いている証拠) があるか
-        if ($('body').hasClass('modal-open')) { // stateが無い、かつモーダルが開いている
-          $('.modal-open #myModal').modal('hide');
+      var _state = history.state;
+      if (!_state) { // ヒストリー操作時にstate (モーダルを開いている証拠) があるか
+        if ($('body').hasClass(MODAL.option.has_open)) { // stateが無い、かつモーダルが開いている
+          $('.' + MODAL.option.has_open + ' ' + MODAL.option.window).modal('hide');
         } else {
           // ページをリロードする。
           location.reload();
         }
       } else {
-        // stateがあればモーダルの中身を別の中身に入れ替える
-        MODAL.view(location.href);
+        if (_state.match('modal')) {
+          MODAL.view(location.href);
+          MODAL.count.back = parseInt(_state.split('modal')[1], 10);
+        }
+        if (_state.match('parent')) {
+          if ($('body').hasClass(MODAL.option.has_open)) {
+            $('.' + MODAL.option.has_open + ' ' + MODAL.option.window).modal('hide');
+          }
+        }
       }
     });
 
@@ -159,6 +173,19 @@ var MODAL = MODAL || {};
       e.preventDefault();
       MODAL.move_page(false);
     });
+
+    // モーダルウィンドウを直接開いた時
+    if ($(MODAL.option.container).data('parent')) {
+      var _parent_path = $(MODAL.option.container).data('parent'),
+          _parent_charset = $(MODAL.option.container).data('charset') ? $(MODAL.option.container).data('charset') : 'UTF-8',
+          _path = location.href;
+      // history.backしたときにページ情報取得元のURLをヒストリーに記憶
+      if (history.state === null) {
+        history.replaceState('parent', '', _parent_path);
+        history.pushState('modal', '', _path);
+      }
+      MODAL.view(_parent_path, true, _parent_charset);
+    }
 
   });
 }(jQuery));
